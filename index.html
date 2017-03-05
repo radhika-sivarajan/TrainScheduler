@@ -11,7 +11,7 @@
   	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
   	<!-- Firebase Reference -->
-    <script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.7.0/firebase.js"></script>
 
 	<link rel="stylesheet" type="text/css" href="assets/css/styles.css">
 
@@ -22,8 +22,9 @@
 <div class="container">
 
 	<!-- Title of the site -->
-	<div class="row">
-		
+	<div class="row text-center">
+		<h1 class="heading">Train schedule</h1>
+		<img class="heading" style="height: 150px" src="assets/images/train.png">
 	</div>
 	
 	<div class="row">
@@ -56,7 +57,7 @@
 			<div class="panel panel-warning">
 				<div class="panel-heading">Add train</div>
 				<div class="panel-body">
-					<form>
+					<!-- <form> -->
 						<div class="form-group">
 							<label for="train-name">Train name</label>
 							<input type="text" class="form-control" id="train-name">
@@ -71,12 +72,12 @@
 						</div>
 						<div class="form-group">
 							<label for="train-frequency">Frequency (Min)</label>
-							<input type="text" class="form-control" id="train-frequency">
+							<input type="number" class="form-control" id="train-frequency">
 						</div>
 						<div class="text-center">				  
 					  		<button type="submit" class="btn btn-warning" id="submit">Submit</button>
 					  	</div>	
-					</form>
+					<!-- </form> -->
 				</div>
 			</div>			
 		</div>
