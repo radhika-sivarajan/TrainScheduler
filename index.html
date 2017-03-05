@@ -1,9 +1,94 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<meta charset="utf-8">
+
+	<!-- jQuery CDN links. -->
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- Bootstrap CDN links. -->
+  	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+  	<!-- Firebase Reference -->
+    <script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="assets/css/styles.css">
+
 	<title>Train scheduler</title>
 </head>
 <body>
-Hello
+
+<div class="container">
+
+	<!-- Title of the site -->
+	<div class="row">
+		
+	</div>
+	
+	<div class="row">
+		
+		<!-- List train -->
+		<div class="col-md-9">
+			<div class="panel panel-success">
+		      	<div class="panel-heading">Current Train Schedule</div>
+		      	<div class="panel-body">
+		      	 	<table class="table table-hover">
+				    	<thead>
+					      <tr>
+					        <th>Train name</th>
+					        <th>Destination</th>
+					        <th>Frequency (min)</th>
+					        <th>Next arrival</th>
+					        <th>Minutes away</th>
+					      </tr>
+					    </thead>
+					    <tbody>
+					      
+				    	</tbody>
+				  	</table>
+		      	</div>
+		    </div>
+		</div>
+		
+		<!-- Add a train -->
+		<div class="col-md-3">
+			<div class="panel panel-warning">
+				<div class="panel-heading">Add train</div>
+				<div class="panel-body">
+					<form>
+						<div class="form-group">
+							<label for="train-name">Train name</label>
+							<input type="text" class="form-control" id="train-name">
+						</div>
+						<div class="form-group">
+							<label for="train-destination">Destination</label>
+							<input type="text" class="form-control" id="train-destination">
+						</div>
+						<div class="form-group">
+							<label for="first-train-time">First train time<br>(HH:mm - military time)</label>
+							<input type="text" class="form-control" id="first-train-time">
+						</div>
+						<div class="form-group">
+							<label for="train-frequency">Frequency (Min)</label>
+							<input type="text" class="form-control" id="train-frequency">
+						</div>
+						<div class="text-center">				  
+					  		<button type="submit" class="btn btn-warning" id="submit">Submit</button>
+					  	</div>	
+					</form>
+				</div>
+			</div>			
+		</div>
+	</div>	
+
+	<!-- Footer of the site -->
+	<div class="row text-center footer">
+		<p>Copyright &copy; 2017 Radhika Sivarajan</p>
+	</div>
+</div>
+
+<script type="text/javascript" src="assets/javascript/train-schedule.js" ></script>
+	
 </body>
 </html>
