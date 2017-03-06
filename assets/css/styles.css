@@ -2,10 +2,28 @@
 	font-family: "Pennstat";
 	src: url(Pennstat.ttf) format("truetype");
 }
+@font-face {
+	font-family: "digital";
+	src: url(digital.ttf) format("truetype");
+}
+.header {
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
 
-.heading {
+.heading{
 	font-family: "Pennstat", sans-serif;
 	font-size: 60px;
-	display: inline;;
 	text-shadow: 0 1px 1px #bbb, 0 2px 0 #999, 0 3px 0 #888, 0 9px 7px #504c4c;
 }
+
+.day {
+	font-size: 20px;
+	font-weight: 600;
+}
+
+.time {
+	font-family: "digital", sans-serif;
+	font-size: 30px;
+}
+

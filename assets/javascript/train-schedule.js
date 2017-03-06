@@ -17,23 +17,57 @@ var trainDestination = "";
 var firstTrainTime = "";
 var trainFrequency = 0;
 
+//Function to display current date, day and time.
+function displayTime(){
+	var day = moment().format("dddd, MMMM Do");
+	var time = moment().format("hh:mm:ss");
+	var period = moment().format("A");
+	$(".current-time").html("<span class='day'>" 
+		+ day + "</span><br><span class='time'>" 
+		+ time + "</span><span> " 
+		+ period + "</span>");
+}
+
 dataRef.ref().on("child_added", function(childSnapshot) {
 
-    var nextArrival;
-    var minuteAway;
+	//Retriving records from database and assingning to variables
+	var trainNameDB = childSnapshot.val().trainName;
+    var trainDestinationDB = childSnapshot.val().trainDestination;
+	var startTimeDB = childSnapshot.val().firstTrainTime;	
+	var frequencyDB = childSnapshot.val().trainFrequency;
+
+	var startTimeConverted = moment(startTimeDB,"HH:mm");
+
+    var differenceBetweenTime = moment().diff(startTimeConverted, "minutes");
+    var remainderTime = parseInt(differenceBetweenTime) % parseInt(frequencyDB);
+    var remainderTimeDuration = moment.duration("00:"+remainderTime+":00");
+    var frequencyDuration = moment.duration("00:"+parseInt(frequencyDB)+":00");
+
+    var lastArrival = moment().subtract(remainderTimeDuration);
+    var nextArrival = moment(lastArrival).add(frequencyDuration);
+    var minutes = moment(nextArrival).diff(moment(), "minutes");
+    var minuteAway = moment(minutes, "mm");
+
+
+    console.log("Currentime : "+ moment().format("HH:mm")+" | Startime : "+startTimeConverted.format("HH:mm"));
+    console.log("Difference : "+differenceBetweenTime+" minutes"+" | Remainder : "+remainderTime+" minutes");    
+    console.log("Last arrival : "+lastArrival.format("HH:mm")+ " | Next arrival : "+nextArrival.format("HH:mm")+" | Minutes Away : "+minuteAway.format("HH:mm"));
+
+    console.log("...............................................");
+
 
     $("tbody").append("<tr><td>"
-     + childSnapshot.val().trainName + "</td><td>" 
-     + childSnapshot.val().trainDestination + "</td><td>" 
-     + childSnapshot.val().trainFrequency + "</td><td>" 
-     + nextArrival + "</td><td>" 
-     + minuteAway + "</td></tr>");
+     + trainNameDB + "</td><td>" 
+     + trainDestinationDB + "</td><td>" 
+     + frequencyDB + "</td><td>" 
+     + nextArrival.format("hh:mm A") + "</td><td>" 
+     + minuteAway.format("mm") + "</td></tr>");
 
 }, function(errorObject) {
     console.log("Errors handled: " + errorObject.code);
 });
 
-//On submit
+//On submiting the form
 $("#submit").on("click", function(event){
 	event.preventDefault();
 
@@ -43,12 +77,14 @@ $("#submit").on("click", function(event){
 	firstTrainTime = $("#first-train-time").val().trim();
 	trainFrequency = parseInt($("#train-frequency").val().trim());
 
-	//Push to the database
+	//Push entries to the database
 	dataRef.ref().push({
 		trainName: trainName,
 		trainDestination: trainDestination,
 		firstTrainTime: firstTrainTime,
 		trainFrequency: trainFrequency
 	});
-
 });
+
+// Display today time
+setInterval(displayTime, 1000);

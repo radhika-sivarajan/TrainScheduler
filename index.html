@@ -13,6 +13,8 @@
   	<!-- Firebase Reference -->
     <script src="https://www.gstatic.com/firebasejs/3.7.0/firebase.js"></script>
 
+ 	<script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
+
 	<link rel="stylesheet" type="text/css" href="assets/css/styles.css">
 
 	<title>Train scheduler</title>
@@ -22,9 +24,12 @@
 <div class="container">
 
 	<!-- Title of the site -->
-	<div class="row text-center">
-		<h1 class="heading">Train schedule</h1>
-		<img class="heading" style="height: 150px" src="assets/images/train.png">
+	<div class="row header">		
+		<div class="col-md-6 heading">Train schedule</div>
+		<div class="col-md-3">
+			<img src="assets/images/train.png" width="auto" height="80px">
+		</div>
+		<div class="col-md-3 current-time"></div>
 	</div>
 	
 	<div class="row">
@@ -59,20 +64,20 @@
 				<div class="panel-body">
 					<!-- <form> -->
 						<div class="form-group">
-							<label for="train-name">Train name</label>
-							<input type="text" class="form-control" id="train-name">
+							<label for="train-name">Name of the train</label>
+							<input type="text" class="form-control" id="train-name" placeholder="Train name">
 						</div>
 						<div class="form-group">
 							<label for="train-destination">Destination</label>
-							<input type="text" class="form-control" id="train-destination">
+							<input type="text" class="form-control" id="train-destination" placeholder="Destination">
 						</div>
 						<div class="form-group">
-							<label for="first-train-time">First train time<br>(HH:mm - military time)</label>
-							<input type="text" class="form-control" id="first-train-time">
+							<label for="first-train-time">First train time (Military time)</label>
+							<input type="text" class="form-control" id="first-train-time" placeholder="HH:mm" >
 						</div>
 						<div class="form-group">
 							<label for="train-frequency">Frequency (Min)</label>
-							<input type="number" class="form-control" id="train-frequency">
+							<input type="number" min="1" class="form-control" id="train-frequency" placeholder="minutes">
 						</div>
 						<div class="text-center">				  
 					  		<button type="submit" class="btn btn-warning" id="submit">Submit</button>
