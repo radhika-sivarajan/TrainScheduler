@@ -29,10 +29,11 @@ function displayTime(){
 		+ period + "</span>");
 }
 
-//Delete the train name from database and table.
+//Delete the train deatails from database and table.
 function deleteTrain(){
 	var trainNameDelete = $(this).attr("data-name");
 	var query = dataRef.ref().orderByChild('trainName').equalTo(trainNameDelete);
+
 	query.on('child_added', function(snapshot) {
 	    snapshot.ref.remove();
 	});
@@ -40,9 +41,54 @@ function deleteTrain(){
 	$(this).parent().prevAll().parent().remove();
 }
 
+//Update the train name in database and table.
+function editTrain(){
+	$("#update").show();
+	$("#submit").hide();
+	$(".add-update-panel").text("Update train details");
+
+	var trainNameEdit = $(this).attr("data-name");
+	var query = dataRef.ref().orderByChild('trainName').equalTo(trainNameEdit);
+
+	$("#update").attr("data-name",trainNameEdit);
+
+	query.on('child_added', function(snapshot) {
+
+		var trainNameFromDB = snapshot.val().trainName;
+    	var trainDestinationFromDB = snapshot.val().trainDestination;
+		var startTimeFromDB = snapshot.val().firstTrainTime;	
+		var frequencyFromDB = snapshot.val().trainFrequency;
+
+		$("#train-name").val(trainNameFromDB);
+		$("#train-destination").val(trainDestinationFromDB);
+		$("#first-train-time").val(startTimeFromDB);
+		$("#train-frequency").val(frequencyFromDB);
+
+	});
+}
+
+$("#update").on("click", function(event){
+	var trainNameUpdated = $("#train-name").val().trim();
+	var trainDestinationUpdated = $("#train-destination").val().trim();
+	var firstTrainTimeUpdated = $("#first-train-time").val().trim();
+	var trainFrequencyUpdated = parseInt($("#train-frequency").val().trim());
+
+	var trainNameToUpdate = $(this).attr("data-name");
+	var query = dataRef.ref().orderByChild('trainName').equalTo(trainNameToUpdate);
+
+	query.on('child_added', function(snapshot) {
+
+		snapshot.ref.update({
+	    	trainName: trainNameUpdated,
+			trainDestination: trainDestinationUpdated,
+			firstTrainTime: firstTrainTimeUpdated,
+			trainFrequency: trainFrequencyUpdated
+	    });
+	});
+});
+
 // Firebase watcher + initial loader.
 dataRef.ref().on("child_added", function(childSnapshot) {
-	console.log(childSnapshot);
 
 	//Retriving records from database and assingning to variables
 	var trainNameDB = childSnapshot.val().trainName;
@@ -71,29 +117,28 @@ dataRef.ref().on("child_added", function(childSnapshot) {
     if(parseInt(startTimeConverted.format("HH"))>parseInt(moment().format("HH"))){
 
     	var minutes = Math.abs(differenceBetweenTime);
-    	nextTrainInMinute = minutes;
+    	nextTrainInMinute = moment(minutes, "mm").format("mm");
 
-    	// console.log(minuteAway);
-    	// console.log("------------------------");
+    	console.log(nextTrainInMinute);
+    	console.log("------------------------");
 
     }
 
     // console.log("Currentime : "+ moment().format("HH:mm")+" | Startime : "+startTimeConverted.format("HH:mm"));
     // console.log("Difference : "+differenceBetweenTime+" minutes"+" | Remainder : "+remainderTime+" minutes");    
     // console.log("Last arrival : "+lastArrival.format("HH:mm")+ " | Next arrival : "+nextArrival.format("HH:mm")+" | Minutes Away : "+minuteAway.format("HH:mm"));
-    // console.log("...............................................");
+    console.log("...............................................");
 
-    
-	// var deleteButton = $("<span>").text("Delete").addClass("label label-success delete").attr("data-name",trainNameDB);
 	var deleteButton = "<span data-name ='" + trainNameDB + "' class='label label-success delete'>Delete</span>";
+	var updateButton = "<span data-name ='" + trainNameDB + "' class='label label-success update'>Update</span>";
 
-
-    $("tbody").append("<tr table-name='" + trainNameDB + "'><td class='camel-case'>"
+    $("tbody").append("<tr><td class='camel-case'>"
      + trainNameDB + "</td><td class='camel-case'>" 
      + trainDestinationDB + "</td><td>" 
      + frequencyDB + "</td><td>" 
      + nextTrainArrival + "</td><td>" 
      + nextTrainInMinute + "</td><td>"
+     + updateButton + "</td><td>"
      + deleteButton +"</td></tr>");
 
 }, function(errorObject) {
@@ -115,7 +160,7 @@ $("#first-train-time").on("input",function(){
 	var is_time = $(this).val();
 	var valid = moment(is_time, "HH:mm", true).isValid();
 	if(!valid)
-		$(this).next().show().text("Enter time valid format");
+		$(this).next().show().text("Enter time in valid format");
 
 });
 
@@ -145,20 +190,28 @@ $("#submit").on("click", function(event){
 		$("#first-train-time").next().hide();
 		$("#train-frequency").next().hide();
 
+		//Clear input field after submission
+		$('#form-train')[0].reset();
+
 	//Throw error message for empty field.
-	}else if(!trainName){
-		$("#train-name").next().show().text("This field is required");
-	}else if(!trainDestination){
-		$("#train-destination").next().show().text("This field is required");
-	}else if(!firstTrainTime){
-		$("#train-train-time").next().show().text("This field is required");
-	}else if(!trainFrequency){
-		$("#train-frequency").next().show().text("This field is required");
+	}else{
+
+		if(!trainName)
+			$("#train-name").next().show().text("This field is required");
+		if(!trainDestination)
+			$("#train-destination").next().show().text("This field is required");
+		if(!firstTrainTime)
+			$("#train-train-time").next().show().text("This field is required");
+		if(!trainFrequency)
+			$("#train-frequency").next().show().text("This field is required");
 	}
 });
 
 // When click on delete button call function to delete train.
 $(document).on("click",".delete",deleteTrain);
+
+// When click on update button call function to update train name.
+$(document).on("click",".update",editTrain);
 
 // Display today time & date.
 setInterval(displayTime, 1000);
