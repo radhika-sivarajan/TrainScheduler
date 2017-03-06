@@ -51,11 +51,11 @@
 	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(239, 81, 123, 0.6);
 }
 
-.update {
+.edit {
 	background-color: #3c9b57;
 }
 
-.update:hover {
+.edit:hover {
 	background-color: #0eb53d;
 	cursor: pointer;
 	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(82, 234, 125, 0.6);
