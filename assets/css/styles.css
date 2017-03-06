@@ -17,9 +17,9 @@
 	text-shadow: 0 1px 1px #bbb, 0 2px 0 #999, 0 3px 0 #888, 0 9px 7px #504c4c;
 }
 
-.day {
-	font-size: 20px;
-	font-weight: 600;
+.heading-section {
+	font-family: "Impact", sans-serif;
+	font-size: 130%;
 }
 
 .time {
@@ -27,14 +27,21 @@
 	font-size: 30px;
 }
 
-.heading-section {
-	font-family: "Impact", sans-serif;
-	font-size: 130%;
+.day {
+	font-size: 20px;
+	font-weight: 600;
 }
+
 .camel-case {
-	 text-transform: capitalize;
+	text-transform: capitalize;
 }
+
 .error-message {
 	display: none;
 	color: red;
+}
+.delete:hover {
+	background-color: red;
+	cursor: pointer;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(126, 239, 104, 0.6);
 }

@@ -29,8 +29,20 @@ function displayTime(){
 		+ period + "</span>");
 }
 
+//Delete the train name from database and table.
+function deleteTrain(){
+	var trainNameDelete = $(this).attr("data-name");
+	var query = dataRef.ref().orderByChild('trainName').equalTo(trainNameDelete);
+	query.on('child_added', function(snapshot) {
+	    snapshot.ref.remove();
+	});
+
+	$(this).parent().prevAll().parent().remove();
+}
+
 // Firebase watcher + initial loader.
 dataRef.ref().on("child_added", function(childSnapshot) {
+	console.log(childSnapshot);
 
 	//Retriving records from database and assingning to variables
 	var trainNameDB = childSnapshot.val().trainName;
@@ -61,23 +73,28 @@ dataRef.ref().on("child_added", function(childSnapshot) {
     	var minutes = Math.abs(differenceBetweenTime);
     	nextTrainInMinute = minutes;
 
-    	console.log(minuteAway);
-    	console.log("------------------------");
+    	// console.log(minuteAway);
+    	// console.log("------------------------");
 
     }
 
-    console.log("Currentime : "+ moment().format("HH:mm")+" | Startime : "+startTimeConverted.format("HH:mm"));
-    console.log("Difference : "+differenceBetweenTime+" minutes"+" | Remainder : "+remainderTime+" minutes");    
-    console.log("Last arrival : "+lastArrival.format("HH:mm")+ " | Next arrival : "+nextArrival.format("HH:mm")+" | Minutes Away : "+minuteAway.format("HH:mm"));
-    console.log("...............................................");
+    // console.log("Currentime : "+ moment().format("HH:mm")+" | Startime : "+startTimeConverted.format("HH:mm"));
+    // console.log("Difference : "+differenceBetweenTime+" minutes"+" | Remainder : "+remainderTime+" minutes");    
+    // console.log("Last arrival : "+lastArrival.format("HH:mm")+ " | Next arrival : "+nextArrival.format("HH:mm")+" | Minutes Away : "+minuteAway.format("HH:mm"));
+    // console.log("...............................................");
+
+    
+	// var deleteButton = $("<span>").text("Delete").addClass("label label-success delete").attr("data-name",trainNameDB);
+	var deleteButton = "<span data-name ='" + trainNameDB + "' class='label label-success delete'>Delete</span>";
 
 
-    $("tbody").append("<tr><td class='camel-case'>"
+    $("tbody").append("<tr table-name='" + trainNameDB + "'><td class='camel-case'>"
      + trainNameDB + "</td><td class='camel-case'>" 
      + trainDestinationDB + "</td><td>" 
      + frequencyDB + "</td><td>" 
      + nextTrainArrival + "</td><td>" 
-     + nextTrainInMinute + "</td></tr>");
+     + nextTrainInMinute + "</td><td>"
+     + deleteButton +"</td></tr>");
 
 }, function(errorObject) {
     console.log("Errors handled: " + errorObject.code);
@@ -139,6 +156,9 @@ $("#submit").on("click", function(event){
 		$("#train-frequency").next().show().text("This field is required");
 	}
 });
+
+// When click on delete button call function to delete train.
+$(document).on("click",".delete",deleteTrain);
 
 // Display today time & date.
 setInterval(displayTime, 1000);
