@@ -37,7 +37,7 @@
 		<!-- List train -->
 		<div class="col-md-9">
 			<div class="panel panel-success">
-		      	<div class="panel-heading">Current Train Schedule</div>
+		      	<div class="panel-heading heading-section">Current Train Schedule</div>
 		      	<div class="panel-body">
 		      	 	<table class="table table-hover">
 				    	<thead>
@@ -60,24 +60,28 @@
 		<!-- Add a train -->
 		<div class="col-md-3">
 			<div class="panel panel-warning">
-				<div class="panel-heading">Add train</div>
+				<div class="panel-heading heading-section">Add train</div>
 				<div class="panel-body">
 					<!-- <form> -->
 						<div class="form-group">
 							<label for="train-name">Name of the train</label>
 							<input type="text" class="form-control" id="train-name" placeholder="Train name">
+							<span class="error-message"></span>
 						</div>
 						<div class="form-group">
 							<label for="train-destination">Destination</label>
 							<input type="text" class="form-control" id="train-destination" placeholder="Destination">
+							<span class="error-message"></span>
 						</div>
 						<div class="form-group">
 							<label for="first-train-time">First train time (Military time)</label>
 							<input type="text" class="form-control" id="first-train-time" placeholder="HH:mm" >
+							<span class="error-message"></span>
 						</div>
 						<div class="form-group">
 							<label for="train-frequency">Frequency (Min)</label>
 							<input type="number" min="1" class="form-control" id="train-frequency" placeholder="minutes">
+							<span class="error-message"></span>
 						</div>
 						<div class="text-center">				  
 					  		<button type="submit" class="btn btn-warning" id="submit">Submit</button>

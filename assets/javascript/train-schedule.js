@@ -16,6 +16,7 @@ var trainName = "";
 var trainDestination = "";
 var firstTrainTime = "";
 var trainFrequency = 0;
+var numRecords = 0;
 
 //Function to display current date, day and time.
 function displayTime(){
@@ -28,6 +29,7 @@ function displayTime(){
 		+ period + "</span>");
 }
 
+// Firebase watcher + initial loader.
 dataRef.ref().on("child_added", function(childSnapshot) {
 
 	//Retriving records from database and assingning to variables
@@ -35,56 +37,108 @@ dataRef.ref().on("child_added", function(childSnapshot) {
     var trainDestinationDB = childSnapshot.val().trainDestination;
 	var startTimeDB = childSnapshot.val().firstTrainTime;	
 	var frequencyDB = childSnapshot.val().trainFrequency;
+	var nextTrainArrival = "";
+	var nextTrainInMinute = 0;
 
 	var startTimeConverted = moment(startTimeDB,"HH:mm");
-
     var differenceBetweenTime = moment().diff(startTimeConverted, "minutes");
+
     var remainderTime = parseInt(differenceBetweenTime) % parseInt(frequencyDB);
     var remainderTimeDuration = moment.duration("00:"+remainderTime+":00");
     var frequencyDuration = moment.duration("00:"+parseInt(frequencyDB)+":00");
 
     var lastArrival = moment().subtract(remainderTimeDuration);
     var nextArrival = moment(lastArrival).add(frequencyDuration);
+
     var minutes = moment(nextArrival).diff(moment(), "minutes");
     var minuteAway = moment(minutes, "mm");
 
+    nextTrainArrival = nextArrival.format("hh:mm A");
+    nextTrainInMinute = minuteAway.format("mm");
+
+    if(parseInt(startTimeConverted.format("HH"))>parseInt(moment().format("HH"))){
+
+    	var minutes = Math.abs(differenceBetweenTime);
+    	nextTrainInMinute = minutes;
+
+    	console.log(minuteAway);
+    	console.log("------------------------");
+
+    }
 
     console.log("Currentime : "+ moment().format("HH:mm")+" | Startime : "+startTimeConverted.format("HH:mm"));
     console.log("Difference : "+differenceBetweenTime+" minutes"+" | Remainder : "+remainderTime+" minutes");    
     console.log("Last arrival : "+lastArrival.format("HH:mm")+ " | Next arrival : "+nextArrival.format("HH:mm")+" | Minutes Away : "+minuteAway.format("HH:mm"));
-
     console.log("...............................................");
 
 
-    $("tbody").append("<tr><td>"
-     + trainNameDB + "</td><td>" 
+    $("tbody").append("<tr><td class='camel-case'>"
+     + trainNameDB + "</td><td class='camel-case'>" 
      + trainDestinationDB + "</td><td>" 
      + frequencyDB + "</td><td>" 
-     + nextArrival.format("hh:mm A") + "</td><td>" 
-     + minuteAway.format("mm") + "</td></tr>");
+     + nextTrainArrival + "</td><td>" 
+     + nextTrainInMinute + "</td></tr>");
 
 }, function(errorObject) {
     console.log("Errors handled: " + errorObject.code);
 });
 
-//On submiting the form
+// Realtime input field validation.
+$("input").on("input",function(){
+	var is_value = $(this).val();
+	if(is_value){
+		$(this).next().hide();
+	}else{
+		$(this).next().show().text("This field is required");
+	}
+});
+
+// Reatime time input validaton.
+$("#first-train-time").on("input",function(){
+	var is_time = $(this).val();
+	var valid = moment(is_time, "HH:mm", true).isValid();
+	if(!valid)
+		$(this).next().show().text("Enter time valid format");
+
+});
+
+//On submiting the form.
 $("#submit").on("click", function(event){
 	event.preventDefault();
 
-	//Get user inputs
+	//Get user inputs.
 	trainName = $("#train-name").val().trim();
 	trainDestination = $("#train-destination").val().trim();
 	firstTrainTime = $("#first-train-time").val().trim();
 	trainFrequency = parseInt($("#train-frequency").val().trim());
 
-	//Push entries to the database
-	dataRef.ref().push({
-		trainName: trainName,
-		trainDestination: trainDestination,
-		firstTrainTime: firstTrainTime,
-		trainFrequency: trainFrequency
-	});
+	// All input all fied Push entries to the database.
+	if(trainName && trainDestination && firstTrainTime && trainFrequency){
+		
+		dataRef.ref().push({
+			trainName: trainName,
+			trainDestination: trainDestination,
+			firstTrainTime: firstTrainTime,
+			trainFrequency: trainFrequency
+		});
+
+		// Hide empty field error message.
+		$("#train-name").next().hide();
+		$("#train-destination").next().hide();
+		$("#first-train-time").next().hide();
+		$("#train-frequency").next().hide();
+
+	//Throw error message for empty field.
+	}else if(!trainName){
+		$("#train-name").next().show().text("This field is required");
+	}else if(!trainDestination){
+		$("#train-destination").next().show().text("This field is required");
+	}else if(!firstTrainTime){
+		$("#train-train-time").next().show().text("This field is required");
+	}else if(!trainFrequency){
+		$("#train-frequency").next().show().text("This field is required");
+	}
 });
 
-// Display today time
+// Display today time & date.
 setInterval(displayTime, 1000);

@@ -27,3 +27,14 @@
 	font-size: 30px;
 }
 
+.heading-section {
+	font-family: "Impact", sans-serif;
+	font-size: 130%;
+}
+.camel-case {
+	 text-transform: capitalize;
+}
+.error-message {
+	display: none;
+	color: red;
+}
