@@ -99,20 +99,17 @@ dataRef.ref().on("child_added", function(childSnapshot) {
     nextTrainArrival = nextArrival.format("hh:mm A");
     nextTrainInMinute = minuteAway.format("mm");
 
-    if(parseInt(startTimeConverted.format("HH"))>parseInt(moment().format("HH"))){
+    if(parseInt(differenceBetweenTime)<0){
 
-    	var minutes = Math.abs(differenceBetweenTime);
-    	nextTrainInMinute = moment(minutes, "mm").format("mm");
-
-    	console.log(nextTrainInMinute);
-    	console.log("------------------------");
+    	nextTrainInMinute = Math.abs(differenceBetweenTime);
+    	nextTrainArrival = startTimeConverted.format("hh:mm A");
 
     }
 
     console.log("Currentime : "+ moment().format("HH:mm")+" | Startime : "+startTimeConverted.format("HH:mm"));
     console.log("Difference : "+differenceBetweenTime+" minutes"+" | Remainder : "+remainderTime+" minutes");    
     console.log("Last arrival : "+lastArrival.format("HH:mm")+ " | Next arrival : "+nextArrival.format("HH:mm")+" | Minutes Away : "+minuteAway.format("HH:mm"));
-    console.log("...............................................");
+    console.log("....................");
 
 	var deleteButton = "<span data-name ='" + trainNameDB + "' class='label label-success delete'>Delete</span>";
 	var editButton = "<span data-name ='" + trainNameDB + "' class='label label-success edit'>Update</span>";
