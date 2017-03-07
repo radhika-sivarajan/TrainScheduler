@@ -68,7 +68,6 @@ function editTrain(){
 		$("#train-destination").val(trainDestinationFromDB);
 		$("#first-train-time").val(startTimeFromDB);
 		$("#train-frequency").val(frequencyFromDB);
-
 	});
 }
 
@@ -141,7 +140,6 @@ $("#first-train-time").on("input",function(){
 	var valid = moment(is_time, "HH:mm", true).isValid();
 	if(!valid)
 		$(this).next().show().text("Enter time in valid format");
-
 });
 
 //On submiting the form update on table and database.
