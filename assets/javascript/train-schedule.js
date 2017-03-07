@@ -16,7 +16,6 @@ var trainName = "";
 var trainDestination = "";
 var firstTrainTime = "";
 var trainFrequency = 0;
-var numRecords = 0;
 
 //Function to display current date, day and time.
 function displayTime(){
@@ -75,19 +74,20 @@ function editTrain(){
 dataRef.ref().on("child_added", function(childSnapshot) {
 
 	//Retriving records from database and assingning to variables
-	var trainNameDB = childSnapshot.val().trainName;
-	var trainDestinationDB = childSnapshot.val().trainDestination;
-	var startTimeDB = childSnapshot.val().firstTrainTime;	
-	var frequencyDB = childSnapshot.val().trainFrequency;
+	trainName = childSnapshot.val().trainName;
+	trainDestination = childSnapshot.val().trainDestination;
+	firstTrainTime = childSnapshot.val().firstTrainTime;	
+	trainFrequency = childSnapshot.val().trainFrequency;
+	
 	var nextTrainArrival = "";
 	var nextTrainInMinute = 0;
 
-	var startTimeConverted = moment(startTimeDB,"HH:mm");
+	var startTimeConverted = moment(firstTrainTime,"HH:mm");
 	var differenceBetweenTime = moment().diff(startTimeConverted, "minutes");
 
-	var remainderTime = parseInt(differenceBetweenTime) % parseInt(frequencyDB);
+	var remainderTime = parseInt(differenceBetweenTime) % parseInt(trainFrequency);
 	var remainderTimeDuration = moment.duration("00:"+remainderTime+":00");
-	var frequencyDuration = moment.duration("00:"+parseInt(frequencyDB)+":00");
+	var frequencyDuration = moment.duration("00:"+parseInt(trainFrequency)+":00");
 
 	var lastArrival = moment().subtract(remainderTimeDuration);
 	var nextArrival = moment(lastArrival).add(frequencyDuration);
@@ -108,13 +108,13 @@ dataRef.ref().on("child_added", function(childSnapshot) {
 	console.log("Last arrival : "+lastArrival.format("HH:mm")+ " | Next arrival : "+nextArrival.format("HH:mm")+" | Minutes Away : "+minuteAway.format("HH:mm"));
 	console.log("....................");
 
-	var deleteButton = "<span data-name ='" + trainNameDB + "' class='label label-success delete'>Delete</span>";
-	var editButton = "<span data-name ='" + trainNameDB + "' class='label label-success edit'>Update</span>";
+	var deleteButton = "<span data-name ='" + trainName + "' class='label label-success delete'>Delete</span>";
+	var editButton = "<span data-name ='" + trainName + "' class='label label-success edit'>Update</span>";
 
 	$("tbody").append("<tr><td class='camel-case'>"
-		+ trainNameDB + "</td><td class='camel-case'>" 
-		+ trainDestinationDB + "</td><td>" 
-		+ frequencyDB + "</td><td>" 
+		+ trainName + "</td><td class='camel-case'>" 
+		+ trainDestination + "</td><td>" 
+		+ trainFrequency + "</td><td>" 
 		+ nextTrainArrival + "</td><td>" 
 		+ nextTrainInMinute + "</td><td>"
 		+ editButton + "</td><td>"
