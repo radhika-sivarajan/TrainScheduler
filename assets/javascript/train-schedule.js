@@ -104,22 +104,22 @@ dataRef.ref().on("child_added", function(childSnapshot) {
 		nextTrainArrival = startTimeConverted.format("hh:mm A");
 	}
 
-    console.log("Currentime : "+ moment().format("HH:mm")+" | Startime : "+startTimeConverted.format("HH:mm"));
-    console.log("Difference : "+differenceBetweenTime+" minutes"+" | Remainder : "+remainderTime+" minutes");    
-    console.log("Last arrival : "+lastArrival.format("HH:mm")+ " | Next arrival : "+nextArrival.format("HH:mm")+" | Minutes Away : "+minuteAway.format("HH:mm"));
-    console.log("....................");
+	console.log("Currentime : "+ moment().format("HH:mm")+" | Startime : "+startTimeConverted.format("HH:mm"));
+	console.log("Difference : "+differenceBetweenTime+" minutes"+" | Remainder : "+remainderTime+" minutes");    
+	console.log("Last arrival : "+lastArrival.format("HH:mm")+ " | Next arrival : "+nextArrival.format("HH:mm")+" | Minutes Away : "+minuteAway.format("HH:mm"));
+	console.log("....................");
 
 	var deleteButton = "<span data-name ='" + trainNameDB + "' class='label label-success delete'>Delete</span>";
 	var editButton = "<span data-name ='" + trainNameDB + "' class='label label-success edit'>Update</span>";
 
-    $("tbody").append("<tr><td class='camel-case'>"
-     + trainNameDB + "</td><td class='camel-case'>" 
-     + trainDestinationDB + "</td><td>" 
-     + frequencyDB + "</td><td>" 
-     + nextTrainArrival + "</td><td>" 
-     + nextTrainInMinute + "</td><td>"
-     + editButton + "</td><td>"
-     + deleteButton +"</td></tr>");
+	$("tbody").append("<tr><td class='camel-case'>"
+		+ trainNameDB + "</td><td class='camel-case'>" 
+		+ trainDestinationDB + "</td><td>" 
+		+ frequencyDB + "</td><td>" 
+		+ nextTrainArrival + "</td><td>" 
+		+ nextTrainInMinute + "</td><td>"
+		+ editButton + "</td><td>"
+		+ deleteButton +"</td></tr>");
 
 }, function(errorObject) {
     console.log("Errors handled: " + errorObject.code);
