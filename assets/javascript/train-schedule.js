@@ -77,34 +77,32 @@ dataRef.ref().on("child_added", function(childSnapshot) {
 
 	//Retriving records from database and assingning to variables
 	var trainNameDB = childSnapshot.val().trainName;
-    var trainDestinationDB = childSnapshot.val().trainDestination;
+	var trainDestinationDB = childSnapshot.val().trainDestination;
 	var startTimeDB = childSnapshot.val().firstTrainTime;	
 	var frequencyDB = childSnapshot.val().trainFrequency;
 	var nextTrainArrival = "";
 	var nextTrainInMinute = 0;
 
 	var startTimeConverted = moment(startTimeDB,"HH:mm");
-    var differenceBetweenTime = moment().diff(startTimeConverted, "minutes");
+	var differenceBetweenTime = moment().diff(startTimeConverted, "minutes");
 
-    var remainderTime = parseInt(differenceBetweenTime) % parseInt(frequencyDB);
-    var remainderTimeDuration = moment.duration("00:"+remainderTime+":00");
-    var frequencyDuration = moment.duration("00:"+parseInt(frequencyDB)+":00");
+	var remainderTime = parseInt(differenceBetweenTime) % parseInt(frequencyDB);
+	var remainderTimeDuration = moment.duration("00:"+remainderTime+":00");
+	var frequencyDuration = moment.duration("00:"+parseInt(frequencyDB)+":00");
 
-    var lastArrival = moment().subtract(remainderTimeDuration);
-    var nextArrival = moment(lastArrival).add(frequencyDuration);
+	var lastArrival = moment().subtract(remainderTimeDuration);
+	var nextArrival = moment(lastArrival).add(frequencyDuration);
 
-    var minutes = moment(nextArrival).diff(moment(), "minutes");
-    var minuteAway = moment(minutes, "mm");
+	var minutes = moment(nextArrival).diff(moment(), "minutes");
+	var minuteAway = moment(minutes, "mm");
 
-    nextTrainArrival = nextArrival.format("hh:mm A");
-    nextTrainInMinute = minuteAway.format("mm");
+	nextTrainArrival = nextArrival.format("hh:mm A");
+	nextTrainInMinute = minuteAway.format("mm");
 
-    if(parseInt(differenceBetweenTime)<0){
-
-    	nextTrainInMinute = Math.abs(differenceBetweenTime);
-    	nextTrainArrival = startTimeConverted.format("hh:mm A");
-
-    }
+	if(parseInt(differenceBetweenTime)<0){
+		nextTrainInMinute = Math.abs(differenceBetweenTime);
+		nextTrainArrival = startTimeConverted.format("hh:mm A");
+	}
 
     console.log("Currentime : "+ moment().format("HH:mm")+" | Startime : "+startTimeConverted.format("HH:mm"));
     console.log("Difference : "+differenceBetweenTime+" minutes"+" | Remainder : "+remainderTime+" minutes");    
