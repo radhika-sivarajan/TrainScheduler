@@ -166,6 +166,9 @@ $("#submit").on("click", function(event){
 		//Clear input field after submission
 		$('#form-train')[0].reset();
 
+		//Update table
+		timedSchedule();
+
 	//Throw error message for empty field.
 	}else{
 
@@ -203,7 +206,7 @@ $("#update").on("click", function(event){
 			trainFrequency: trainFrequencyUpdated
 	    });
 	});
-	// $("tbody").toggle().toggle();
+
 	$('tbody').load('index.html').fadeIn("slow");
 });
 
