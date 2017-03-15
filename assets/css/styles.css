@@ -29,9 +29,17 @@
 	font-size: 130%;
 }
 
+.current-time {
+	text-shadow: 0 0 1px #fff;
+	font-family: 'Reem Kufi', sans-serif;
+	font-size: 120%;
+	color: #016281;
+}
+
 .time {
 	font-family: "digital", sans-serif;
 	font-size: 30px;
+	color: black;
 }
 
 .day {
