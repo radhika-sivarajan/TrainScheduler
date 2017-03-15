@@ -1,10 +1,10 @@
 // Initialize Firebase
 var config = {
-	apiKey: "AIzaSyCzjeRcu0xE8tXHP5Khfk5HAwh87x21A3A",
-	authDomain: "trainschedule-b9839.firebaseapp.com",
-	databaseURL: "https://trainschedule-b9839.firebaseio.com",
-	storageBucket: "trainschedule-b9839.appspot.com",
-	messagingSenderId: "294700576184"
+	apiKey: "AIzaSyA94U2kl0qCCqFDMvu0T9LjiYc_sebgSyU",
+	authDomain: "sdtrainschedule.firebaseapp.com",
+	databaseURL: "https://sdtrainschedule.firebaseio.com",
+	storageBucket: "sdtrainschedule.appspot.com",
+	messagingSenderId: "789539558017"
 };
 
 firebase.initializeApp(config);
