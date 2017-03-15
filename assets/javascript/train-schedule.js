@@ -42,6 +42,8 @@ function deleteTrain(){
 
 //Edit train details in the form for updating.
 function editTrain(){
+
+	// Change  the form to edit train
 	$("#update").show();
 	$("#submit").hide();
 	$(".add-update-panel").text("Update train details");
@@ -185,7 +187,7 @@ $("#submit").on("click", function(event){
 
 //When click on update button get values from the form and update on database.
 $("#update").on("click", function(event){
-	// event.preventDefault();
+	event.preventDefault();
 
 	// Get values from the form
 	var trainNameUpdated = $("#train-name").val().trim();
@@ -207,7 +209,26 @@ $("#update").on("click", function(event){
 	    });
 	});
 
-	$('tbody').load('index.html').fadeIn("slow");
+	//Clear input field after submission
+	$('#form-train')[0].reset();
+
+	//Update table
+	timedSchedule();
+
+	// Change  the form to add train
+	$("#update").hide();
+	$("#submit").show();
+	$(".add-update-panel").text("Add train");
+	$("#train-form").removeClass("panel-danger");
+	$("#train-form").addClass("panel-warning");
+});
+
+//Prevent submitting form on pressing enter key
+$(window).keydown(function(event){
+    if(event.keyCode == 13) {
+      event.preventDefault();
+      return false;
+    }
 });
 
 // When click on delete button call function to delete train.
