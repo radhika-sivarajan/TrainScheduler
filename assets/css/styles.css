@@ -7,14 +7,21 @@
 	src: url(digital.ttf) format("truetype");
 }
 .header {
-	padding-top: 20px;
-	padding-bottom: 20px;
+	padding: 20px;
+	background: #f3feff url(../images/header-train.jpg) no-repeat;
+	background-size: contain;
+	border-bottom: #dcf6f9 solid 5px;
+	margin-bottom: 50px;
 }
 
 .heading{
 	font-family: "Pennstat", sans-serif;
-	font-size: 60px;
-	text-shadow: 0 1px 1px #bbb, 0 2px 0 #999, 0 3px 0 #888, 0 9px 7px #504c4c;
+	font-size: 50px;
+	text-shadow: 0 1px 1px #ffffff, 0 2px 0 #aacce8, 0 3px 0 #76afe0, 0 7px 5px #4390d2;
+}
+.heading span {
+	font-family: 'Righteous', cursive;
+	font-size: 30px;
 }
 
 .heading-section {
@@ -63,4 +70,26 @@
 
 #update {
 	display: none;
+}
+
+.info {
+	border-top: solid 1px #b8ebf1;
+    background-color: #dcf6f9;
+    font-size: 15px;
+    margin-top: 30px;
+    padding: 10px;
+}
+	    
+.btn-social {
+  display: inline-block;
+  height: 50px;
+  width: 50px;
+  border-radius: 100%;
+  border: solid 2px white;
+  transition: all 0.3s ease-in-out;
+}
+
+.btn-social:hover,
+.btn-social:focus{
+  border: solid 3px #286090;
 }

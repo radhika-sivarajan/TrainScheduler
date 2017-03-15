@@ -84,35 +84,24 @@ function timedSchedule(){
 		firstTrainTime = childSnapshot.val().firstTrainTime;	
 		trainFrequency = childSnapshot.val().trainFrequency;
 		
-		var nextTrainArrival = "";
-		var nextTrainInMinute = 0;
+		var tFrequency = parseInt(trainFrequency);
 
-		var startTimeConverted = moment(firstTrainTime,"HH:mm");
-		var differenceBetweenTime = moment().diff(startTimeConverted, "minutes");
+	    // First Time (pushed back 1 year to make sure it comes before current time)
+	    var firstTimeConverted = moment(firstTrainTime, "hh:mm").subtract(1, "years");
+	    var currentTime = moment();
 
-		var remainderTime = parseInt(differenceBetweenTime) % parseInt(trainFrequency);
-		var remainderTimeDuration = moment.duration("00:"+remainderTime+":00");
-		var frequencyDuration = moment.duration("00:"+parseInt(trainFrequency)+":00");
+	    // Difference between the times & Time apart (remainder)
+	    var diffTime = moment().diff(moment(firstTimeConverted), "minutes");
+	    var tRemainder = diffTime % tFrequency;
 
-		var lastArrival = moment().subtract(remainderTimeDuration);
-		var nextArrival = moment(lastArrival).add(frequencyDuration);
+	    // Minute Until Train
+	    nextTrainInMinute = tFrequency - tRemainder;
 
-		var minutes = moment(nextArrival).diff(moment(), "minutes");
-		var minuteAway = moment(minutes, "mm");
+	    // Next Train
+	    var nextTrain = moment().add(nextTrainInMinute, "minutes");
+	    nextTrainArrival = moment(nextTrain).format("hh:mm");
 
-		nextTrainArrival = nextArrival.format("hh:mm A");
-		nextTrainInMinute = minuteAway.format("mm");
-
-		if(parseInt(differenceBetweenTime)<0){
-			nextTrainInMinute = Math.abs(differenceBetweenTime);
-			nextTrainArrival = startTimeConverted.format("hh:mm A");
-		}
-
-		// console.log("Currentime : "+ moment().format("HH:mm")+" | Startime : "+startTimeConverted.format("HH:mm"));
-		// console.log("Difference : "+differenceBetweenTime+" minutes"+" | Remainder : "+remainderTime+" minutes");    
-		// console.log("Last arrival : "+lastArrival.format("HH:mm")+ " | Next arrival : "+nextArrival.format("HH:mm")+" | Minutes Away : "+minuteAway.format("HH:mm"));
-		// console.log("....................");
-
+	    // Buttons for delete and edit
 		var deleteButton = "<span data-name ='" + trainName + "' class='label label-success delete'>Delete</span>";
 		var editButton = "<span data-name ='" + trainName + "' class='label label-success edit'>Update</span>";
 
@@ -128,9 +117,7 @@ function timedSchedule(){
 	}, function(errorObject) {
 	    console.log("Errors handled: " + errorObject.code);
 	});
-
 }
-
 
 // Realtime input field validation.
 $("input").on("input",function(){
@@ -195,6 +182,7 @@ $("#submit").on("click", function(event){
 
 //When click on update button get values from the form and update on database.
 $("#update").on("click", function(event){
+	// event.preventDefault();
 
 	// Get values from the form
 	var trainNameUpdated = $("#train-name").val().trim();
@@ -215,6 +203,8 @@ $("#update").on("click", function(event){
 			trainFrequency: trainFrequencyUpdated
 	    });
 	});
+	// $("tbody").toggle().toggle();
+	$('tbody').load('index.html').fadeIn("slow");
 });
 
 // When click on delete button call function to delete train.
