@@ -52,7 +52,7 @@ function editTrain() {
 	//Assign attribute for 'update button' in the form for future reference 
 	$("#update").attr("data-name", trainNameEdit);
 
-	// Retrive corresponding value from database and display on form to edit.
+	// Retrieve corresponding value from database and display on form to edit.
 	query.on('child_added', function (snapshot) {
 
 		var trainNameFromDB = snapshot.val().trainName;
@@ -67,14 +67,14 @@ function editTrain() {
 	});
 }
 
-//Display schedule by calculating the data from datadata
+//Display schedule by calculating the data from database
 function timedSchedule() {
 	$("tbody").empty();
 
 	// Firebase watcher + initial loader.
 	dataRef.ref().on("child_added", function (childSnapshot) {
 
-		//Retriving records from database and assingning to variables
+		//Retrieving records from database and assigning to variables
 		trainName = childSnapshot.val().trainName;
 		trainDestination = childSnapshot.val().trainDestination;
 		firstTrainTime = childSnapshot.val().firstTrainTime;
@@ -125,7 +125,7 @@ $("input").on("input", function () {
 	}
 });
 
-// Reatime time format validaton.
+// Real time time format validation.
 $("#first-train-time").on("input", function () {
 	var is_time = $(this).val();
 	var valid = moment(is_time, "HH:mm", true).isValid();
