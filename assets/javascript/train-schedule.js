@@ -9,7 +9,7 @@ var config = {
 firebase.initializeApp(config);
 var dataRef = firebase.database();
 
-// Intial values
+// Initial values
 var trainName = "";
 var trainDestination = "";
 var firstTrainTime = "";
@@ -115,7 +115,7 @@ function timedSchedule() {
 	});
 }
 
-// Realtime input field validation.
+// Real time input field validation.
 $("input").on("input", function () {
 	var is_value = $(this).val();
 	if (is_value) {
@@ -133,7 +133,7 @@ $("#first-train-time").on("input", function () {
 		$(this).next().show().text("Enter time in valid format");
 });
 
-//On submiting the form update on table and database.
+//On submitting the form update on table and database.
 $("#submit").on("click", function (event) {
 	event.preventDefault();
 
